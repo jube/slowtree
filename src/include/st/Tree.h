@@ -1,5 +1,5 @@
 /*
- * slowtree
+ * SlowTree
  * a 2D top-down vegetation sprite generator
  *
  * Copyright (c) 2013, Julien Bernard
