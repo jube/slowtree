@@ -1,3 +1,4 @@
+include_directories(${CAIRO_INCLUDE_DIRS})
 
 add_executable(slowtree slowtree.cc)
 target_link_libraries(slowtree st0)

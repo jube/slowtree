@@ -8,12 +8,15 @@ find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(CAIRO REQUIRED cairo cairo-png)
 
+add_definitions(-Wall -g -O2)
 
-add_definitions(-Wall -g -O2 -std=c++11)
+if (WIN32)
+  add_definitions(-std=c++0x)
+else (WIN32)
+  add_definitions(-std=c++11)
+endif (WIN32)
+
 include_directories("${ST_SOURCE_DIR}/include")
-
-include_directories(${CAIRO_INCLUDE_DIRS})
-
 
 add_subdirectory(lib)
 add_subdirectory(bin)

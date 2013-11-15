@@ -1,3 +1,4 @@
+include_directories(${CAIRO_INCLUDE_DIRS})
 
 set(LIBST_SRC
   Foliage.cc
