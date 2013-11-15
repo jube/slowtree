@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 
 project(ST CXX)
 
-# include(CPackConfig.cmake)
+include(CPackConfig.cmake)
 
 find_package(PkgConfig REQUIRED)
 
@@ -31,7 +31,7 @@ install(
   DESTINATION "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/pkgconfig"
 )
 
-# install(
-#   DIRECTORY "${ST_SOURCE_DIR}/include/st"
-#   DESTINATION include
-# )
+install(
+  DIRECTORY "${ST_SOURCE_DIR}/include/st"
+  DESTINATION include
+)

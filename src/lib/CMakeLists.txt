@@ -13,3 +13,9 @@ add_library(st0 SHARED
 )
 
 target_link_libraries(st0 ${CAIRO_LIBRARIES})
+
+install(
+  TARGETS st0
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
