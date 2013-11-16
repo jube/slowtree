@@ -1,0 +1,6 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define SLOWTREE_VERSION "@CPACK_PACKAGE_VERSION@"
+
+#endif // CONFIG_H

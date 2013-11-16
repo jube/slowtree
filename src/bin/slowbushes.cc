@@ -17,12 +17,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <cstdio>
 #include <random>
 
 #include <st/Tree.h>
 #include <st/TileSet.h>
 
+#include "config.h"
+
 int main() {
+  std::printf("SlowTree, a 2D top-down vegetation sprite generator\nVersion %s\n", SLOWTREE_VERSION);
 
   std::random_device dev;
   std::mt19937_64 gen(dev());
