@@ -27,7 +27,7 @@ namespace st {
   struct FoliageDef {
     int faces = 7;
     double radius_min = 0.7;
-    double radius_max = 1.1;
+    double radius_max = 1.0;
     double transparency = 0.7;
     int bubbles = 10;
   };
