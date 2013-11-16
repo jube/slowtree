@@ -20,16 +20,17 @@
 #ifndef ST_TREE_H
 #define ST_TREE_H
 
+#include "Foliage.h"
+#include "Fruits.h"
 #include "Renderable.h"
 #include "Trunk.h"
-#include "Foliage.h"
 
 namespace st {
 
   class Tree : public Renderable {
   public:
-    Tree(TrunkDef trunk, FoliageDef foliage)
-      : m_trunk(trunk), m_foliage(foliage)
+    Tree(TrunkDef trunk, FoliageDef foliage, bool has_fruits = false, FruitsDef fruits = FruitsDef())
+      : m_trunk(trunk), m_foliage(foliage), m_has_fruits(has_fruits), m_fruits(fruits)
     {
     }
 
@@ -38,6 +39,8 @@ namespace st {
   private:
     Trunk m_trunk;
     Foliage m_foliage;
+    bool m_has_fruits;
+    Fruits m_fruits;
   };
 
 

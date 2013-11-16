@@ -17,17 +17,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <st/Tree.h>
+#ifndef ST_FRUITS_H
+#define ST_FRUITS_H
+
+#include "Renderable.h"
 
 namespace st {
 
-  void Tree::render(std::mt19937_64& gen, Sprite& sprite) {
-    m_trunk.render(gen, sprite);
-    m_foliage.render(gen, sprite);
+  struct FruitsDef {
+    double radius_max = 0.8;
+    double local_radius = 0.03;
+    double transparency = 0.3;
+    int numbers = 30;
+    double color[3] = { 1.0, 0.0, 0.0 }; // RGB
+  };
 
-    if (m_has_fruits) {
-      m_fruits.render(gen, sprite);
+  class Fruits : public Renderable {
+  public:
+
+    Fruits(const FruitsDef& def)
+      : m_def(def)
+    {
     }
-  }
+
+    virtual void render(std::mt19937_64& gen, Sprite& sprite) override;
+
+  private:
+    FruitsDef m_def;
+  };
+
 
 }
+
+#endif // ST_FRUITS_H

@@ -2,6 +2,7 @@ include_directories(${CAIRO_INCLUDE_DIRS})
 
 set(LIBST_SRC
   Foliage.cc
+  Fruits.cc
   Renderable.cc
   Sprite.cc
   TileSet.cc
