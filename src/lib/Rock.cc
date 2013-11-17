@@ -24,8 +24,8 @@
 
 #include <st/Sprite.h>
 
-#define LIGHT_GREY 0.3
-#define DARK_GREY 0.7
+#define LIGHT_GREY 0.7
+#define DARK_GREY 0.5
 
 namespace st {
 
@@ -35,6 +35,9 @@ namespace st {
 
     double center = sprite.getSize() / 2.0;
     cairo_translate(cr, center, center);
+
+    double lw = sprite.getSize() / 40.0;
+    cairo_set_line_width(cr, lw);
 
     double radius_max = sprite.getSize() / 2.0 * m_def.radius_max;
     double radius_min = sprite.getSize() / 2.0 * m_def.radius_min;
@@ -54,10 +57,10 @@ namespace st {
 
     cairo_close_path(cr);
 
-    cairo_set_source_rgba(cr,LIGHT_GREY, LIGHT_GREY, LIGHT_GREY, m_def.transparency);
+    cairo_set_source_rgb(cr,LIGHT_GREY, LIGHT_GREY, LIGHT_GREY);
     cairo_fill_preserve(cr);
 
-    cairo_set_source_rgba(cr,DARK_GREY, DARK_GREY, DARK_GREY, m_def.transparency);
+    cairo_set_source_rgb(cr,DARK_GREY, DARK_GREY, DARK_GREY);
     cairo_stroke(cr);
 
     cairo_restore(cr);
