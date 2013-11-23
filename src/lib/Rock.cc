@@ -25,6 +25,7 @@
 #include <st/Sprite.h>
 
 #define LIGHT_GREY 0.7
+#define MEDIUM_GREY 0.6
 #define DARK_GREY 0.5
 
 namespace st {
@@ -61,7 +62,17 @@ namespace st {
     cairo_fill_preserve(cr);
 
     cairo_set_source_rgb(cr,DARK_GREY, DARK_GREY, DARK_GREY);
-    cairo_stroke(cr);
+    cairo_stroke_preserve(cr);
+
+    cairo_clip(cr);
+
+    cairo_pattern_t *pattern = cairo_pattern_create_radial(
+      0.0, 0.0, 0.0, 0.0, 0.0, radius_max);
+    cairo_pattern_add_color_stop_rgba(pattern, 0.0, DARK_GREY, DARK_GREY, DARK_GREY, 1.0);
+    cairo_pattern_add_color_stop_rgba(pattern, 1.0, LIGHT_GREY, LIGHT_GREY, LIGHT_GREY, 0.0);
+
+    cairo_mask(cr, pattern);
+    cairo_pattern_destroy(pattern);
 
     cairo_restore(cr);
   }
