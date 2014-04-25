@@ -22,16 +22,12 @@
 #include <algorithm>
 #include <vector>
 
+#include <st/Geometry.h>
 #include <st/Sprite.h>
 
 namespace st {
 
   namespace {
-
-    struct Point {
-      double x;
-      double y;
-    };
 
     struct Ball {
       double length;
