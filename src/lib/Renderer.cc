@@ -23,21 +23,24 @@
 
 namespace st {
 
-  void Path::moveTo(Vector2 p) {
+  Path& Path::moveTo(Vector2 p) {
     m_elements.push_back(Element::MOVE_TO);
     m_points.push_back(p);
+    return *this;
   }
 
-  void Path::lineTo(Vector2 p) {
+  Path& Path::lineTo(Vector2 p) {
     m_elements.push_back(Element::LINE_TO);
     m_points.push_back(p);
+    return *this;
   }
 
-  void Path::curveTo(Vector2 p1, Vector2 p2, Vector2 p3) {
+  Path& Path::curveTo(Vector2 p1, Vector2 p2, Vector2 p3) {
     m_elements.push_back(Element::CURVE_TO);
     m_points.push_back(p1);
     m_points.push_back(p2);
     m_points.push_back(p3);
+    return *this;
   }
 
   void Path::close() {

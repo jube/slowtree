@@ -39,9 +39,9 @@ namespace st {
       CLOSE,
     };
 
-    void moveTo(Vector2 p);
-    void lineTo(Vector2 p);
-    void curveTo(Vector2 p1, Vector2 p2, Vector2 p3);
+    Path& moveTo(Vector2 p);
+    Path& lineTo(Vector2 p);
+    Path& curveTo(Vector2 p1, Vector2 p2, Vector2 p3);
     void close();
 
     typedef typename std::vector<Vector2>::const_iterator points_const_iterator;
