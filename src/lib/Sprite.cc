@@ -29,8 +29,6 @@ namespace st {
     if (m_def.size <= 0) {
       m_def.size = 64;
     }
-
-    assert(m_def.cr);
   }
 
 }

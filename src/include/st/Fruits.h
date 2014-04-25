@@ -27,9 +27,8 @@ namespace st {
   struct FruitsDef {
     double radius_max = 0.8;
     double local_radius = 0.03;
-    double transparency = 0.3;
     int numbers = 30;
-    double color[3] = { 1.0, 0.0, 0.0 }; // RGB
+    Color color = { 1.0, 0.0, 0.0, 0.3 };
   };
 
   class Fruits : public Renderable {
@@ -40,7 +39,7 @@ namespace st {
     {
     }
 
-    virtual void render(Engine& engine, Sprite& sprite) override;
+    virtual void render(Engine& engine, Renderer& renderer, Sprite& sprite) override;
 
   private:
     FruitsDef m_def;

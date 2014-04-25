@@ -20,25 +20,24 @@
 #ifndef ST_SPRITE_H
 #define ST_SPRITE_H
 
-#include <cairo.h>
+#include <st/Geometry.h>
 
 namespace st {
 
   struct SpriteDef {
     int size = 256;
-    cairo_t *cr = nullptr;
   };
 
   class Sprite {
   public:
     Sprite(const SpriteDef& def);
 
-    int getSize() {
+    int getSize() const {
       return m_def.size;
     }
 
-    cairo_t *getContext() {
-      return m_def.cr;
+    Vector2 getCenter() const {
+      return { m_def.size * 0.5, m_def.size * 0.5 };
     }
 
   private:

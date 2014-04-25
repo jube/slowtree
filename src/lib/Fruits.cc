@@ -26,12 +26,9 @@
 
 namespace st {
 
-  void Fruits::render(Engine& engine, Sprite& sprite) {
-    cairo_t *cr = sprite.getContext();
-    cairo_save(cr);
-
-    double center = sprite.getSize() / 2.0;
-    cairo_translate(cr, center, center);
+  void Fruits::render(Engine& engine, Renderer& renderer, Sprite& sprite) {
+    RendererStateGuard guard(renderer);
+    renderer.translate(sprite.getCenter());
 
     double radius_max = sprite.getSize() / 2.0 * m_def.radius_max;
     double local_radius = sprite.getSize() / 2.0 * m_def.local_radius;
@@ -46,15 +43,9 @@ namespace st {
       double length = dist_length(engine());
       angle += dist_angle(engine());
 
-      double x = length * std::cos(angle);
-      double y = length * std::sin(angle);
-
-      cairo_arc(cr, x, y, local_radius, 0.0, 2.0 * M_PI);
-      cairo_set_source_rgba(cr, m_def.color[0], m_def.color[1], m_def.color[2], m_def.transparency);
-      cairo_fill(cr);
+      auto p = Vector2::makePolar(length, angle);
+      renderer.arcFill(p, local_radius, 0.0, 2.0 * M_PI, m_def.color);
     }
-
-    cairo_restore(cr);
   }
 
 }

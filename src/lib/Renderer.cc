@@ -63,8 +63,24 @@ namespace st {
     cairo_translate(m_cr, vec.x, vec.y);
   }
 
-  void Renderer::arcStroke(Vector2 center, double radius, double angle1, double angle2, Color color) {
+
+  void Renderer::setLineJoinMiter(double limit) {
+    cairo_set_line_join(m_cr, CAIRO_LINE_JOIN_MITER);
+    cairo_set_miter_limit(m_cr, limit);
+  }
+
+  void Renderer::setLineJoinRound() {
+    cairo_set_line_join(m_cr, CAIRO_LINE_JOIN_ROUND);
+  }
+
+  void Renderer::setLineCapRound() {
+    cairo_set_line_cap(m_cr, CAIRO_LINE_CAP_ROUND);
+  }
+
+
+  void Renderer::arcStroke(Vector2 center, double radius, double angle1, double angle2, double line_width, Color color) {
     cairo_arc(m_cr, center.x, center.y, radius, angle1, angle2);
+    cairo_set_line_width(m_cr, line_width);
     cairo_set_source_rgba(m_cr, color.r, color.g, color.b, color.a);
     cairo_stroke(m_cr);
   }
@@ -132,12 +148,16 @@ namespace st {
     cairo_clip(m_cr);
   }
 
-  void Renderer::radialPattern(Vector2 p1, double radius1, Color color1, Vector2 p2, double radius2, Color color2) {
+  void Renderer::radialGradient(Vector2 p1, double radius1, Color color1, Vector2 p2, double radius2, Color color2) {
     cairo_pattern_t *pattern = cairo_pattern_create_radial(p1.x, p1.y, radius1, p2.x, p2.y, radius2);
     cairo_pattern_add_color_stop_rgba(pattern, 0.0, color1.r, color1.g, color1.b, color1.a);
     cairo_pattern_add_color_stop_rgba(pattern, 1.0, color2.r, color2.g, color2.b, color2.a);
     cairo_mask(m_cr, pattern);
     cairo_pattern_destroy(pattern);
+  }
+
+  void Renderer::resetClip() {
+    cairo_reset_clip(m_cr);
   }
 
   void Renderer::saveToFile(std::string filename) {

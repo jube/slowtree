@@ -20,8 +20,6 @@
 #ifndef ST_TILE_SET_H
 #define ST_TILE_SET_H
 
-#include <cairo.h>
-
 #include "Renderable.h"
 
 namespace st {
@@ -40,13 +38,8 @@ namespace st {
 
     void render(Engine& engine, Renderable& renderable);
 
-    cairo_t *getContext() {
-      return m_cr;
-    }
-
   private:
     TileSetDef m_def;
-    cairo_t *m_cr;
   };
 
 }

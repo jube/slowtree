@@ -51,7 +51,7 @@ namespace st {
     }
 
     points_const_iterator points_end() const {
-      return m_points.begin();
+      return m_points.end();
     }
 
     typedef typename std::vector<Element>::const_iterator const_iterator;
@@ -84,7 +84,12 @@ namespace st {
 
     void translate(Vector2 vec);
 
-    void arcStroke(Vector2 center, double radius, double angle1, double angle2, Color color);
+    void setLineJoinMiter(double limit = 1e3);
+    void setLineJoinRound();
+
+    void setLineCapRound();
+
+    void arcStroke(Vector2 center, double radius, double angle1, double angle2, double line_width, Color color);
     void arcFill(Vector2 center, double radius, double angle1, double angle2, Color color);
     void arcClip(Vector2 center, double radius, double angle1, double angle2);
 
@@ -92,8 +97,9 @@ namespace st {
     void pathFill(const Path& path, Color color);
     void pathClip(const Path& path);
 
-    void radialPattern(Vector2 p1, double radius1, Color color1, Vector2 p2, double radius2, Color color2);
+    void radialGradient(Vector2 p1, double radius1, Color color1, Vector2 p2, double radius2, Color color2);
 
+    void resetClip();
 
     template<class Func>
     void tweakContext(Func func) {

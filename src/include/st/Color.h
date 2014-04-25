@@ -28,16 +28,20 @@ namespace st {
     double b;
     double a;
 
-    static constexpr Color red(double val = 1.0, double alpha = 1.0) {
-      return { val, 0.0, 0.0, alpha };
+    static constexpr Color red(double value = 1.0, double alpha = 1.0) {
+      return { value, 0.0, 0.0, alpha };
     }
 
-    static constexpr Color green(double val = 1.0, double alpha = 1.0) {
-      return { 0.0, val, 0.0, alpha };
+    static constexpr Color green(double value = 1.0, double alpha = 1.0) {
+      return { 0.0, value, 0.0, alpha };
     }
 
-    static constexpr Color blue(double val = 1.0, double alpha = 1.0) {
-      return { 0.0, 0.0, val, alpha };
+    static constexpr Color blue(double value = 1.0, double alpha = 1.0) {
+      return { 0.0, 0.0, value, alpha };
+    }
+
+    static constexpr Color grey(double value, double alpha = 1.0) {
+      return { value, value, value, alpha };
     }
 
   };

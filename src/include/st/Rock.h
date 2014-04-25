@@ -38,7 +38,7 @@ namespace st {
     {
     }
 
-    virtual void render(Engine& engine, Sprite& sprite) override;
+    virtual void render(Engine& engine, Renderer& renderer, Sprite& sprite) override;
 
   private:
     RockDef m_def;

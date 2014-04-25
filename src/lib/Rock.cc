@@ -30,51 +30,37 @@
 
 namespace st {
 
-  void Rock::render(Engine& engine, Sprite& sprite) {
-    cairo_t *cr = sprite.getContext();
-    cairo_save(cr);
-
-    double center = sprite.getSize() / 2.0;
-    cairo_translate(cr, center, center);
-
-    double lw = sprite.getSize() / 40.0;
-    cairo_set_line_width(cr, lw);
+  void Rock::render(Engine& engine, Renderer& renderer, Sprite& sprite) {
+    RendererStateGuard guard(renderer);
+    renderer.translate(sprite.getCenter());
 
     double radius_max = sprite.getSize() / 2.0 * m_def.radius_max;
     double radius_min = sprite.getSize() / 2.0 * m_def.radius_min;
 
     std::uniform_real_distribution<double> dist_length(radius_min, radius_max);
 
-    cairo_move_to(cr, dist_length(engine()), 0.0);
+    Path path;
+    path.moveTo({ dist_length(engine()), 0.0 });
 
     for (int i = 1; i < m_def.faces; ++i) {
       double length = dist_length(engine());
 
-      double x = length * std::cos(i * 2.0 * M_PI / m_def.faces);
-      double y = length * std::sin(i * 2.0 * M_PI / m_def.faces);
-
-      cairo_line_to(cr, x, y);
+      auto p = Vector2::makePolar(length, i * 2.0 * M_PI / m_def.faces);
+      path.lineTo(p);
     }
 
-    cairo_close_path(cr);
+    path.close();
 
-    cairo_set_source_rgb(cr,LIGHT_GREY, LIGHT_GREY, LIGHT_GREY);
-    cairo_fill_preserve(cr);
+    renderer.pathFill(path, Color::grey(LIGHT_GREY));
 
-    cairo_set_source_rgb(cr,DARK_GREY, DARK_GREY, DARK_GREY);
-    cairo_stroke_preserve(cr);
+    double line_width = sprite.getSize() / 40.0;
+    renderer.pathStroke(path, line_width, Color::grey(DARK_GREY));
 
-    cairo_clip(cr);
-
-    cairo_pattern_t *pattern = cairo_pattern_create_radial(
-      0.0, 0.0, 0.0, 0.0, 0.0, radius_max);
-    cairo_pattern_add_color_stop_rgba(pattern, 0.0, DARK_GREY, DARK_GREY, DARK_GREY, 1.0);
-    cairo_pattern_add_color_stop_rgba(pattern, 1.0, LIGHT_GREY, LIGHT_GREY, LIGHT_GREY, 0.0);
-
-    cairo_mask(cr, pattern);
-    cairo_pattern_destroy(pattern);
-
-    cairo_restore(cr);
+    renderer.pathClip(path);
+    renderer.radialGradient(
+      { 0.0, 0.0 }, 0.0,        Color::grey(DARK_GREY, 1.0),
+      { 0.0, 0.0 }, radius_max, Color::grey(LIGHT_GREY, 0.0)
+    );
   }
 
 }

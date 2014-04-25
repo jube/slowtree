@@ -21,6 +21,7 @@
 #define ST_RENDERABLE_H
 
 #include <st/Engine.h>
+#include <st/Renderer.h>
 
 namespace st {
   class Sprite;
@@ -29,7 +30,7 @@ namespace st {
   public:
     virtual ~Renderable();
 
-    virtual void render(Engine& engine, Sprite& sprite) = 0;
+    virtual void render(Engine& engine, Renderer& renderer, Sprite& sprite) = 0;
 
   };
 
