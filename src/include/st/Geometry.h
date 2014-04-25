@@ -24,6 +24,10 @@
 
 namespace st {
 
+  constexpr double lerp(double a, double b, double t) {
+    return a + (b - a) * t;
+  }
+
   struct Vector2 {
     double x;
     double y;
