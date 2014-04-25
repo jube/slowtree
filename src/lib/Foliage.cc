@@ -57,7 +57,7 @@ namespace st {
 
     std::uniform_real_distribution<double> dist1(radius_min, (2.0 * radius_min + radius_max) / 3.0);
 
-    std::vector<Point> points;
+    std::vector<Vector2> points;
 
     for (int i = 0; i < def.faces; ++i) {
       double radius = dist1(engine());

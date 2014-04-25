@@ -21,10 +21,54 @@
 #define ST_RENDERER_H
 
 #include <string>
+#include <vector>
 
 #include <cairo.h>
 
+#include <st/Color.h>
+#include <st/Geometry.h>
+
 namespace st {
+
+  class Path {
+  public:
+    enum class Element {
+      MOVE_TO,
+      LINE_TO,
+      CURVE_TO,
+      CLOSE,
+    };
+
+    void moveTo(Vector2 p);
+    void lineTo(Vector2 p);
+    void curveTo(Vector2 p1, Vector2 p2, Vector2 p3);
+    void close();
+
+    typedef typename std::vector<Vector2>::const_iterator points_const_iterator;
+
+    points_const_iterator points_begin() const {
+      return m_points.begin();
+    }
+
+    points_const_iterator points_end() const {
+      return m_points.begin();
+    }
+
+    typedef typename std::vector<Element>::const_iterator const_iterator;
+
+    const_iterator begin() const {
+      return m_elements.begin();
+    }
+
+    const_iterator end() const {
+      return m_elements.end();
+    }
+
+  private:
+    std::vector<Element> m_elements;
+    std::vector<Vector2> m_points;
+  };
+
   class Renderer {
   public:
     ~Renderer();
@@ -38,6 +82,23 @@ namespace st {
     void save();
     void restore();
 
+    void translate(Vector2 vec);
+
+    void arcStroke(Vector2 center, double radius, double angle1, double angle2, Color color);
+    void arcFill(Vector2 center, double radius, double angle1, double angle2, Color color);
+    void arcClip(Vector2 center, double radius, double angle1, double angle2);
+
+    void pathStroke(const Path& path, double line_width, Color color);
+    void pathFill(const Path& path, Color color);
+    void pathClip(const Path& path);
+
+    void radialPattern(Vector2 p1, double radius1, Color color1, Vector2 p2, double radius2, Color color2);
+
+
+    template<class Func>
+    void tweakContext(Func func) {
+      func(m_cr);
+    }
 
     void saveToFile(std::string filename);
 

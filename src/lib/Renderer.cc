@@ -22,6 +22,30 @@
 #include <cassert>
 
 namespace st {
+
+  void Path::moveTo(Vector2 p) {
+    m_elements.push_back(Element::MOVE_TO);
+    m_points.push_back(p);
+  }
+
+  void Path::lineTo(Vector2 p) {
+    m_elements.push_back(Element::LINE_TO);
+    m_points.push_back(p);
+  }
+
+  void Path::curveTo(Vector2 p1, Vector2 p2, Vector2 p3) {
+    m_elements.push_back(Element::CURVE_TO);
+    m_points.push_back(p1);
+    m_points.push_back(p2);
+    m_points.push_back(p3);
+  }
+
+  void Path::close() {
+    m_elements.push_back(Element::CLOSE);
+  }
+
+
+
   Renderer::~Renderer() {
     cairo_destroy(m_cr);
     cairo_surface_destroy(m_surface);
@@ -33,6 +57,87 @@ namespace st {
 
   void Renderer::restore() {
     cairo_restore(m_cr);
+  }
+
+  void Renderer::translate(Vector2 vec) {
+    cairo_translate(m_cr, vec.x, vec.y);
+  }
+
+  void Renderer::arcStroke(Vector2 center, double radius, double angle1, double angle2, Color color) {
+    cairo_arc(m_cr, center.x, center.y, radius, angle1, angle2);
+    cairo_set_source_rgba(m_cr, color.r, color.g, color.b, color.a);
+    cairo_stroke(m_cr);
+  }
+
+  void Renderer::arcFill(Vector2 center, double radius, double angle1, double angle2, Color color) {
+    cairo_arc(m_cr, center.x, center.y, radius, angle1, angle2);
+    cairo_set_source_rgba(m_cr, color.r, color.g, color.b, color.a);
+    cairo_fill(m_cr);
+  }
+
+  void Renderer::arcClip(Vector2 center, double radius, double angle1, double angle2) {
+    cairo_arc(m_cr, center.x, center.y, radius, angle1, angle2);
+    cairo_clip(m_cr);
+  }
+
+  static void pathDefine(cairo_t *cr, const Path& path) {
+    auto it = path.points_begin();
+
+    for (auto elt : path) {
+      switch(elt) {
+      case Path::Element::MOVE_TO: {
+        auto p = *it++;
+        cairo_move_to(cr, p.x, p.y);
+        break;
+      }
+
+      case Path::Element::LINE_TO: {
+        auto p = *it++;
+        cairo_line_to(cr, p.x, p.y);
+        break;
+      }
+
+      case Path::Element::CURVE_TO: {
+        auto p1 = *it++;
+        auto p2 = *it++;
+        auto p3 = *it++;
+        cairo_curve_to(cr, p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
+        break;
+      }
+
+      case Path::Element::CLOSE:
+        cairo_close_path(cr);
+        break;
+      }
+    }
+
+    assert(it == path.points_end());
+  }
+
+  void Renderer::pathStroke(const Path& path, double line_width, Color color) {
+    pathDefine(m_cr, path);
+    cairo_set_line_width(m_cr, line_width);
+    cairo_set_source_rgba(m_cr, color.r, color.g, color.b, color.a);
+    cairo_stroke(m_cr);
+  }
+
+  void Renderer::pathFill(const Path& path, Color color) {
+    pathDefine(m_cr, path);
+    cairo_set_source_rgba(m_cr, color.r, color.g, color.b, color.a);
+    cairo_fill(m_cr);
+  }
+
+  void Renderer::pathClip(const Path& path) {
+    pathDefine(m_cr, path);
+    cairo_clip(m_cr);
+  }
+
+  void Renderer::radialPattern(Vector2 p1, double radius1, Color color1, Vector2 p2, double radius2, Color color2) {
+    cairo_pattern_t *pattern = cairo_pattern_create_radial(p1.x, p1.y, radius1, p2.x, p2.y, radius2);
+    cairo_pattern_add_color_stop_rgba(pattern, 0.0, color1.r, color1.g, color1.b, color1.a);
+    cairo_pattern_add_color_stop_rgba(pattern, 1.0, color2.r, color2.g, color2.b, color2.a);
+    cairo_mask(m_cr, pattern);
+    cairo_pattern_destroy(pattern);
   }
 
   void Renderer::saveToFile(std::string filename) {

@@ -17,22 +17,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ST_GEOMETRY_H
-#define ST_GEOMETRY_H
-
-#include <cmath>
+#ifndef ST_COLOR_H
+#define ST_COLOR_H
 
 namespace st {
 
-  struct Vector2 {
-    double x;
-    double y;
+  struct Color {
+    double r;
+    double g;
+    double b;
+    double a;
 
-    static constexpr Vector2 makePolar(double rho, double theta) {
-      return { rho * std::cos(theta), rho * std::sin(theta) };
+    static constexpr Color red(double val = 1.0, double alpha = 1.0) {
+      return { val, 0.0, 0.0, alpha };
     }
+
+    static constexpr Color green(double val = 1.0, double alpha = 1.0) {
+      return { 0.0, val, 0.0, alpha };
+    }
+
+    static constexpr Color blue(double val = 1.0, double alpha = 1.0) {
+      return { 0.0, 0.0, val, alpha };
+    }
+
   };
 
 }
 
-#endif // ST_GEOMETRY_H
+#endif // ST_COLOR_H
