@@ -4,6 +4,7 @@ set(LIBST_SRC
   Foliage.cc
   Fruits.cc
   Renderable.cc
+  Renderer.cc
   Rock.cc
   Sprite.cc
   TileSet.cc
