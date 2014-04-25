@@ -48,7 +48,7 @@ namespace st {
     cairo_pattern_destroy(pattern);
   }
 
-  static void simple_foliage(const FoliageDef& def, std::mt19937_64& gen, Sprite& sprite) {
+  static void simple_foliage(const FoliageDef& def, Engine& engine, Sprite& sprite) {
     cairo_t *cr = sprite.getContext();
     cairo_save(cr);
 
@@ -60,7 +60,7 @@ namespace st {
     std::vector<Point> points;
 
     for (int i = 0; i < def.faces; ++i) {
-      double radius = dist1(gen);
+      double radius = dist1(engine());
       double x = radius * std::cos(2.0 * M_PI * i / def.faces);
       double y = radius * std::sin(2.0 * M_PI * i / def.faces);
 
@@ -72,7 +72,7 @@ namespace st {
     cairo_move_to(cr, points[0].x, points[0].y);
 
     for (std::size_t i = 1; i < points.size(); ++i) {
-      double radius = dist2(gen);
+      double radius = dist2(engine());
       double x1 = radius * std::cos(2.0 * M_PI * (i - 0.7) / def.faces);
       double y1 = radius * std::sin(2.0 * M_PI * (i - 0.7) / def.faces);
       double x2 = radius * std::cos(2.0 * M_PI * (i - 0.3) / def.faces);
@@ -82,7 +82,7 @@ namespace st {
     }
 
     {
-      double radius = dist2(gen);
+      double radius = dist2(engine());
       double x = radius * std::cos(2.0 * M_PI * -0.5 / def.faces);
       double y = radius * std::sin(2.0 * M_PI * -0.5 / def.faces);
 
@@ -113,7 +113,7 @@ namespace st {
     cairo_restore(cr);
   }
 
-  static void ball_foliage(const FoliageDef& def, std::mt19937_64& gen, Sprite& sprite) {
+  static void ball_foliage(const FoliageDef& def, Engine& engine, Sprite& sprite) {
     cairo_t *cr = sprite.getContext();
     cairo_save(cr);
 
@@ -130,12 +130,12 @@ namespace st {
 
     double angle = 0.;
     for (int i = 0; i < nballs; ++i) {
-      double length = dist_length(gen);
-      angle += dist_angle(gen);
+      double length = dist_length(engine());
+      angle += dist_angle(engine());
 
       double local_radius_max = std::min(radius_max - length - 2.0 * lw, 1.5 * length);
       std::uniform_real_distribution<double> dist_radius(local_radius_max * 0.8, local_radius_max);
-      double radius = dist_radius(gen);
+      double radius = dist_radius(engine());
 
       balls.push_back({ length, radius, angle });
     }
@@ -170,15 +170,15 @@ namespace st {
     cairo_restore(cr);
   }
 
-  void Foliage::render(std::mt19937_64& gen, Sprite& sprite) {
+  void Foliage::render(Engine& engine, Sprite& sprite) {
     cairo_t *cr = sprite.getContext();
     cairo_save(cr);
 
     double center = sprite.getSize() / 2.0;
     cairo_translate(cr, center, center);
 
-    simple_foliage(m_def, gen, sprite);
-    ball_foliage(m_def, gen, sprite);
+    simple_foliage(m_def, engine, sprite);
+    ball_foliage(m_def, engine, sprite);
 
     cairo_restore(cr);
   }

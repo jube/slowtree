@@ -49,7 +49,7 @@ namespace st {
     cairo_surface_destroy(surface);
   }
 
-  void TileSet::render(std::mt19937_64& gen, Renderable& renderable) {
+  void TileSet::render(Engine& engine, Renderable& renderable) {
     cairo_t *cr = getContext();
 
     SpriteDef def;
@@ -62,7 +62,7 @@ namespace st {
         cairo_translate(cr, x * m_def.size, y * m_def.size);
 
         Sprite sprite(def);
-        renderable.render(gen, sprite);
+        renderable.render(engine, sprite);
 
         cairo_restore(cr);
       }

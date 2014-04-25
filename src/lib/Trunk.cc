@@ -25,7 +25,7 @@
 
 namespace st {
 
-  void Trunk::render(std::mt19937_64& gen, Sprite& sprite) {
+  void Trunk::render(Engine& engine, Sprite& sprite) {
     cairo_t *cr = sprite.getContext();
     cairo_save(cr);
 
@@ -39,10 +39,10 @@ namespace st {
 
     std::uniform_real_distribution<double> dist(radius_min, radius_max);
 
-    cairo_move_to(cr, dist(gen), 0.0);
+    cairo_move_to(cr, dist(engine()), 0.0);
 
     for (int i = 1; i < m_def.faces; ++i) {
-      double radius = dist(gen);
+      double radius = dist(engine());
       double x = radius * std::cos(2.0 * M_PI * i / m_def.faces);
       double y = radius * std::sin(2.0 * M_PI * i / m_def.faces);
 
@@ -85,15 +85,15 @@ namespace st {
 
     double angle = 0.0;
     for (int i = 0; i < branches; ++i) {
-      angle += dist_angle(gen);
-      double length = dist_length(gen);
+      angle += dist_angle(engine());
+      double length = dist_length(engine());
 
-      int breaks = dist_breaks(gen);
+      int breaks = dist_breaks(engine());
 
       double break_angles[breaks];
 
       for (int j = 0; j < breaks; ++j) {
-        break_angles[j] = dist_break_angle(gen);
+        break_angles[j] = dist_break_angle(engine());
       }
 
       double x1 = radius_min * std::cos(angle - ANGLE_DIFF_TRUNK);

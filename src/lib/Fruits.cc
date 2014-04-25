@@ -26,7 +26,7 @@
 
 namespace st {
 
-  void Fruits::render(std::mt19937_64& gen, Sprite& sprite) {
+  void Fruits::render(Engine& engine, Sprite& sprite) {
     cairo_t *cr = sprite.getContext();
     cairo_save(cr);
 
@@ -43,8 +43,8 @@ namespace st {
     double angle = 0.;
 
     for (int i = 0; i < nfruits; ++i) {
-      double length = dist_length(gen);
-      angle += dist_angle(gen);
+      double length = dist_length(engine());
+      angle += dist_angle(engine());
 
       double x = length * std::cos(angle);
       double y = length * std::sin(angle);

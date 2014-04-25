@@ -20,7 +20,7 @@
 #ifndef ST_RENDERABLE_H
 #define ST_RENDERABLE_H
 
-#include <random>
+#include <st/Engine.h>
 
 namespace st {
   class Sprite;
@@ -29,7 +29,7 @@ namespace st {
   public:
     virtual ~Renderable();
 
-    virtual void render(std::mt19937_64& gen, Sprite& sprite) = 0;
+    virtual void render(Engine& engine, Sprite& sprite) = 0;
 
   };
 

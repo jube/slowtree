@@ -29,7 +29,7 @@ int main() {
   std::printf("SlowTree, a 2D top-down vegetation sprite generator\nVersion %s\n", SLOWTREE_VERSION);
 
   std::random_device dev;
-  std::mt19937_64 gen(dev());
+  st::Engine engine(dev());
 
   st::TrunkDef trunk;
   st::FoliageDef foliage;
@@ -43,7 +43,7 @@ int main() {
   def.filename = "trees.png";
   st::TileSet tileset(def);
 
-  tileset.render(gen, tree);
+  tileset.render(engine, tree);
 
   return 0;
 }

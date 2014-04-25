@@ -21,12 +21,12 @@
 
 namespace st {
 
-  void Tree::render(std::mt19937_64& gen, Sprite& sprite) {
-    m_trunk.render(gen, sprite);
-    m_foliage.render(gen, sprite);
+  void Tree::render(Engine& engine, Sprite& sprite) {
+    m_trunk.render(engine, sprite);
+    m_foliage.render(engine, sprite);
 
     if (m_has_fruits) {
-      m_fruits.render(gen, sprite);
+      m_fruits.render(engine, sprite);
     }
   }
 

@@ -38,7 +38,7 @@ namespace st {
       : m_def(def) {
     }
 
-    virtual void render(std::mt19937_64& gen, Sprite& sprite) override;
+    virtual void render(Engine& engine, Sprite& sprite) override;
 
 
   private:

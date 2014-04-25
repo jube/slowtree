@@ -38,7 +38,7 @@ namespace st {
     TileSet(const TileSetDef& def);
     ~TileSet();
 
-    void render(std::mt19937_64& gen, Renderable& renderable);
+    void render(Engine& engine, Renderable& renderable);
 
     cairo_t *getContext() {
       return m_cr;

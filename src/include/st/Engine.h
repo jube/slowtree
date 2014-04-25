@@ -17,31 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <cstdio>
+#ifndef ST_ENGINE_H
+#define ST_ENGINE_H
+
 #include <random>
 
-#include <st/Rock.h>
-#include <st/TileSet.h>
+namespace st {
 
-#include "config.h"
+  class Engine {
+  public:
+    typedef std::mt19937_64 Type;
 
-int main() {
-  std::printf("SlowTree, a 2D top-down vegetation sprite generator\nVersion %s\n", SLOWTREE_VERSION);
+    Engine(typename Type::result_type seed)
+    : m_generator(seed)
+    {
+    }
 
-  std::random_device dev;
-  st::Engine engine(dev());
+    Engine(const Engine&) = delete;
+    Engine& operator=(const Engine&) = delete;
 
-  st::RockDef rock_def;
-  st::Rock rock(rock_def);
+    Type& operator()() {
+      return m_generator;
+    }
 
-  st::TileSetDef def;
-  def.width = 4;
-  def.height = 4;
-  def.filename = "rocks.png";
-  st::TileSet tileset(def);
+  private:
+    Type m_generator;
+  };
 
-  tileset.render(engine, rock);
-
-  return 0;
 }
 
+#endif // ST_ENGINE_H

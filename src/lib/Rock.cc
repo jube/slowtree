@@ -30,7 +30,7 @@
 
 namespace st {
 
-  void Rock::render(std::mt19937_64& gen, Sprite& sprite) {
+  void Rock::render(Engine& engine, Sprite& sprite) {
     cairo_t *cr = sprite.getContext();
     cairo_save(cr);
 
@@ -45,10 +45,10 @@ namespace st {
 
     std::uniform_real_distribution<double> dist_length(radius_min, radius_max);
 
-    cairo_move_to(cr, dist_length(gen), 0.0);
+    cairo_move_to(cr, dist_length(engine()), 0.0);
 
     for (int i = 1; i < m_def.faces; ++i) {
-      double length = dist_length(gen);
+      double length = dist_length(engine());
 
       double x = length * std::cos(i * 2.0 * M_PI / m_def.faces);
       double y = length * std::sin(i * 2.0 * M_PI / m_def.faces);
