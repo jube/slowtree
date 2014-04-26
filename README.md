@@ -1,6 +1,11 @@
 # SlowTree
 
-SlowTree is a 2D top-down vegetation sprite generator.
+SlowTree is a 2D top-down vegetation (and more) sprite generator.
+
+Here is an example of what can be done with SlowTree:
+
+![Tree sprites](https://raw.github.com/jube/slowtree/master/examples/trees.png)
+
 
 ## Requirements
 

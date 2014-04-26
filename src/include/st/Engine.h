@@ -2,7 +2,7 @@
  * SlowTree
  * a 2D top-down vegetation sprite generator
  *
- * Copyright (c) 2013-2014, Julien Bernard
+ * Copyright (c) 2014, Julien Bernard
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,36 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ST_FOLIAGE_H
-#define ST_FOLIAGE_H
+#ifndef ST_ENGINE_H
+#define ST_ENGINE_H
 
-#include "Renderable.h"
+#include <random>
 
 namespace st {
 
-  struct FoliageDef {
-    int faces = 7;
-    double radius_min = 0.7;
-    double radius_max = 1.0;
-    double transparency = 0.7;
-    int bubbles = 10;
-  };
-
-  class Foliage : public Renderable {
+  class Engine {
   public:
+    typedef std::mt19937_64 Type;
 
-    Foliage(const FoliageDef& def)
-      : m_def(def)
+    Engine(typename Type::result_type seed)
+    : m_generator(seed)
     {
     }
 
-    virtual void render(Engine& engine, Renderer& renderer, Sprite& sprite) override;
+    Engine(const Engine&) = delete;
+    Engine& operator=(const Engine&) = delete;
+
+    Type& operator()() {
+      return m_generator;
+    }
 
   private:
-    FoliageDef m_def;
+    Type m_generator;
   };
-
 
 }
 
-#endif // ST_FOLIAGE_H
+#endif // ST_ENGINE_H

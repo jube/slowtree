@@ -2,7 +2,7 @@
  * SlowTree
  * a 2D top-down vegetation sprite generator
  *
- * Copyright (c) 2013-2014, Julien Bernard
+ * Copyright (c) 2014, Julien Bernard
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,36 +17,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ST_FOLIAGE_H
-#define ST_FOLIAGE_H
+#ifndef ST_GEOMETRY_H
+#define ST_GEOMETRY_H
 
-#include "Renderable.h"
+#include <cmath>
 
 namespace st {
 
-  struct FoliageDef {
-    int faces = 7;
-    double radius_min = 0.7;
-    double radius_max = 1.0;
-    double transparency = 0.7;
-    int bubbles = 10;
-  };
+  constexpr double lerp(double a, double b, double t) {
+    return a + (b - a) * t;
+  }
 
-  class Foliage : public Renderable {
-  public:
+  struct Vector2 {
+    double x;
+    double y;
 
-    Foliage(const FoliageDef& def)
-      : m_def(def)
-    {
+    static constexpr Vector2 makePolar(double rho, double theta) {
+      return { rho * std::cos(theta), rho * std::sin(theta) };
     }
-
-    virtual void render(Engine& engine, Renderer& renderer, Sprite& sprite) override;
-
-  private:
-    FoliageDef m_def;
   };
-
 
 }
 
-#endif // ST_FOLIAGE_H
+#endif // ST_GEOMETRY_H

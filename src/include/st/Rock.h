@@ -17,25 +17,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ST_FOLIAGE_H
-#define ST_FOLIAGE_H
+#ifndef ST_ROCK_H
+#define ST_ROCK_H
 
 #include "Renderable.h"
 
 namespace st {
 
-  struct FoliageDef {
+  struct RockDef {
     int faces = 7;
     double radius_min = 0.7;
     double radius_max = 1.0;
-    double transparency = 0.7;
-    int bubbles = 10;
   };
 
-  class Foliage : public Renderable {
+  class Rock : public Renderable {
   public:
 
-    Foliage(const FoliageDef& def)
+    Rock(const RockDef& def)
       : m_def(def)
     {
     }
@@ -43,10 +41,10 @@ namespace st {
     virtual void render(Engine& engine, Renderer& renderer, Sprite& sprite) override;
 
   private:
-    FoliageDef m_def;
+    RockDef m_def;
   };
 
 
 }
 
-#endif // ST_FOLIAGE_H
+#endif // ST_ROCK_H

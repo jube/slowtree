@@ -9,7 +9,10 @@ target_link_libraries(slowtree st0)
 add_executable(slowbushes slowbushes.cc)
 target_link_libraries(slowbushes st0)
 
+add_executable(slowrocks slowrocks.cc)
+target_link_libraries(slowrocks st0)
+
 install(
-  TARGETS slowtree slowbushes
+  TARGETS slowtree slowbushes slowrocks
   RUNTIME DESTINATION bin
 )

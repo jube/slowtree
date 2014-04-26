@@ -2,7 +2,7 @@
  * SlowTree
  * a 2D top-down vegetation sprite generator
  *
- * Copyright (c) 2013, Julien Bernard
+ * Copyright (c) 2013-2014, Julien Bernard
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +21,12 @@
 
 namespace st {
 
-  void Tree::render(std::mt19937_64& gen, Sprite& sprite) {
-    m_trunk.render(gen, sprite);
-    m_foliage.render(gen, sprite);
+  void Tree::render(Engine& engine, Renderer& renderer, Sprite& sprite) {
+    m_trunk.render(engine, renderer, sprite);
+    m_foliage.render(engine, renderer, sprite);
 
     if (m_has_fruits) {
-      m_fruits.render(gen, sprite);
+      m_fruits.render(engine, renderer, sprite);
     }
   }
 

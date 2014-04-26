@@ -17,36 +17,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ST_FOLIAGE_H
-#define ST_FOLIAGE_H
+#include <cstdio>
+#include <random>
 
-#include "Renderable.h"
+#include <st/Rock.h>
+#include <st/TileSet.h>
 
-namespace st {
+#include "config.h"
 
-  struct FoliageDef {
-    int faces = 7;
-    double radius_min = 0.7;
-    double radius_max = 1.0;
-    double transparency = 0.7;
-    int bubbles = 10;
-  };
+int main() {
+  std::printf("SlowTree, a 2D top-down vegetation sprite generator\nVersion %s\n", SLOWTREE_VERSION);
 
-  class Foliage : public Renderable {
-  public:
+  std::random_device dev;
+  st::Engine engine(dev());
 
-    Foliage(const FoliageDef& def)
-      : m_def(def)
-    {
-    }
+  st::RockDef rock_def;
+  st::Rock rock(rock_def);
 
-    virtual void render(Engine& engine, Renderer& renderer, Sprite& sprite) override;
+  st::TileSetDef def;
+  def.width = 4;
+  def.height = 4;
+  def.filename = "rocks.png";
+  st::TileSet tileset(def);
 
-  private:
-    FoliageDef m_def;
-  };
+  tileset.render(engine, rock);
 
-
+  return 0;
 }
 
-#endif // ST_FOLIAGE_H

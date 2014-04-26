@@ -2,7 +2,7 @@
  * SlowTree
  * a 2D top-down vegetation sprite generator
  *
- * Copyright (c) 2013, Julien Bernard
+ * Copyright (c) 2013-2014, Julien Bernard
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,6 @@
 #ifndef ST_TILE_SET_H
 #define ST_TILE_SET_H
 
-#include <cairo.h>
-
 #include "Renderable.h"
 
 namespace st {
@@ -38,15 +36,10 @@ namespace st {
     TileSet(const TileSetDef& def);
     ~TileSet();
 
-    void render(std::mt19937_64& gen, Renderable& renderable);
-
-    cairo_t *getContext() {
-      return m_cr;
-    }
+    void render(Engine& engine, Renderable& renderable);
 
   private:
     TileSetDef m_def;
-    cairo_t *m_cr;
   };
 
 }

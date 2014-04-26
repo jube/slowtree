@@ -2,7 +2,7 @@
  * SlowTree
  * a 2D top-down vegetation sprite generator
  *
- * Copyright (c) 2013, Julien Bernard
+ * Copyright (c) 2013-2014, Julien Bernard
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,40 +34,30 @@ namespace st {
     if (m_def.size <= 0) {
       m_def.size = 64;
     }
-
-    cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, m_def.size * m_def.width, m_def.size * m_def.height);
-    assert(surface);
-    m_cr = cairo_create(surface);
-    assert(m_cr);
   }
 
   TileSet::~TileSet() {
-    cairo_surface_t *surface = cairo_get_target(m_cr);
-    cairo_destroy(m_cr);
-
-    cairo_surface_write_to_png(surface, m_def.filename);
-    cairo_surface_destroy(surface);
   }
 
-  void TileSet::render(std::mt19937_64& gen, Renderable& renderable) {
-    cairo_t *cr = getContext();
+  void TileSet::render(Engine& engine, Renderable& renderable) {
+    Renderer renderer = Renderer::create(m_def.size * m_def.width, m_def.size * m_def.height);
 
     SpriteDef def;
     def.size = m_def.size;
-    def.cr = cr;
 
     for (int x = 0; x < m_def.width; ++x) {
       for (int y = 0; y < m_def.height; ++y) {
-        cairo_save(cr);
-        cairo_translate(cr, x * m_def.size, y * m_def.size);
+        RendererStateGuard guard(renderer);
+
+        Vector2 origin{ static_cast<double>(x) * m_def.size, static_cast<double>(y) * m_def.size };
+        renderer.translate(origin);
 
         Sprite sprite(def);
-        renderable.render(gen, sprite);
-
-        cairo_restore(cr);
+        renderable.render(engine, renderer, sprite);
       }
     }
 
+    renderer.saveToFile(m_def.filename);
   }
 
 }

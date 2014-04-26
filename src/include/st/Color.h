@@ -2,7 +2,7 @@
  * SlowTree
  * a 2D top-down vegetation sprite generator
  *
- * Copyright (c) 2013-2014, Julien Bernard
+ * Copyright (c) 2014, Julien Bernard
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,36 +17,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ST_FOLIAGE_H
-#define ST_FOLIAGE_H
-
-#include "Renderable.h"
+#ifndef ST_COLOR_H
+#define ST_COLOR_H
 
 namespace st {
 
-  struct FoliageDef {
-    int faces = 7;
-    double radius_min = 0.7;
-    double radius_max = 1.0;
-    double transparency = 0.7;
-    int bubbles = 10;
-  };
+  struct Color {
+    double r;
+    double g;
+    double b;
+    double a;
 
-  class Foliage : public Renderable {
-  public:
-
-    Foliage(const FoliageDef& def)
-      : m_def(def)
-    {
+    static constexpr Color red(double value = 1.0, double alpha = 1.0) {
+      return { value, 0.0, 0.0, alpha };
     }
 
-    virtual void render(Engine& engine, Renderer& renderer, Sprite& sprite) override;
+    static constexpr Color green(double value = 1.0, double alpha = 1.0) {
+      return { 0.0, value, 0.0, alpha };
+    }
 
-  private:
-    FoliageDef m_def;
+    static constexpr Color blue(double value = 1.0, double alpha = 1.0) {
+      return { 0.0, 0.0, value, alpha };
+    }
+
+    static constexpr Color grey(double value, double alpha = 1.0) {
+      return { value, value, value, alpha };
+    }
+
   };
-
 
 }
 
-#endif // ST_FOLIAGE_H
+#endif // ST_COLOR_H
