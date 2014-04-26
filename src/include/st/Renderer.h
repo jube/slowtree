@@ -89,6 +89,8 @@ namespace st {
 
     void setLineCapRound();
 
+    void lineStroke(Vector2 p1, Vector2 p2, double line_width, Color color);
+
     void arcStroke(Vector2 center, double radius, double angle1, double angle2, double line_width, Color color);
     void arcFill(Vector2 center, double radius, double angle1, double angle2, Color color);
     void arcClip(Vector2 center, double radius, double angle1, double angle2);

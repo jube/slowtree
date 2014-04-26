@@ -19,6 +19,7 @@
  */
 #include <st/Rock.h>
 
+#include <cassert>
 #include <algorithm>
 #include <vector>
 
@@ -39,28 +40,90 @@ namespace st {
 
     std::uniform_real_distribution<double> dist_length(radius_min, radius_max);
 
-    Path path;
-    path.moveTo({ dist_length(engine()), 0.0 });
+    std::vector<Vector2> points;
+    points.push_back({ dist_length(engine()), 0.0 });
 
     for (int i = 1; i < m_def.faces; ++i) {
       double length = dist_length(engine());
 
       auto p = Vector2::makePolar(length, i * 2.0 * M_PI / m_def.faces);
-      path.lineTo(p);
+      points.push_back(p);
+    }
+
+#define EDGES_COUNT_MAX 2
+
+    std::uniform_int_distribution<int> dist_edges_count(1, EDGES_COUNT_MAX);
+
+    std::vector<int> edges_count;
+    int edges_left = m_def.faces;
+
+    for (;;) {
+      int edges = dist_edges_count(engine());
+
+      edges_count.push_back(edges);
+      edges_left -= edges;
+
+      if (edges_left <= EDGES_COUNT_MAX) {
+        edges_count.push_back(edges_left);
+        break;
+      }
+    }
+
+    auto count = edges_count.size();
+
+    std::uniform_real_distribution<double> dist_length2(radius_min * 0.4, radius_min * 0.8);
+
+    std::vector<Vector2> points2;
+
+    for (std::size_t i = 0; i < count; ++i) {
+      double length = dist_length2(engine());
+
+      auto p = Vector2::makePolar(length, i * 2.0 * M_PI / count);
+      points2.push_back(p);
+    }
+
+
+    // draw
+
+    Path path;
+    path.moveTo(points[0]);
+
+    for (int i = 1; i < m_def.faces; ++i) {
+      path.lineTo(points[i]);
     }
 
     path.close();
 
-    renderer.pathFill(path, Color::grey(LIGHT_GREY));
+    renderer.pathFill(path, Color::grey(MEDIUM_GREY));
 
     double line_width = sprite.getSize() / 40.0;
     renderer.pathStroke(path, line_width, Color::grey(DARK_GREY));
 
-    renderer.pathClip(path);
-    renderer.radialGradient(
-      { 0.0, 0.0 }, 0.0,        Color::grey(DARK_GREY, 1.0),
-      { 0.0, 0.0 }, radius_max, Color::grey(LIGHT_GREY, 0.0)
-    );
+
+    Path path2;
+    path2.moveTo(points2[0]);
+
+    for (std::size_t i = 0; i < count; ++i) {
+      path2.lineTo(points2[i]);
+    }
+
+    path2.close();
+
+    renderer.pathFill(path2, Color::grey(LIGHT_GREY));
+
+    line_width /= 2;
+    renderer.pathStroke(path2, line_width, Color::grey(DARK_GREY));
+
+
+    line_width /= 2;
+    int j = 0; int k = 0;
+    for (auto edges : edges_count) {
+      renderer.lineStroke(points[j], points2[k], line_width, Color::grey(DARK_GREY));
+
+      j += edges;
+      k += 1;
+    }
+
   }
 
 }

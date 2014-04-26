@@ -80,6 +80,11 @@ namespace st {
     cairo_set_line_cap(m_cr, CAIRO_LINE_CAP_ROUND);
   }
 
+  void Renderer::lineStroke(Vector2 p1, Vector2 p2, double line_width, Color color) {
+    Path path;
+    path.moveTo(p1).lineTo(p2);
+    pathStroke(path, line_width, color);
+  }
 
   void Renderer::arcStroke(Vector2 center, double radius, double angle1, double angle2, double line_width, Color color) {
     cairo_arc(m_cr, center.x, center.y, radius, angle1, angle2);
